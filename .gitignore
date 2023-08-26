@@ -1,9 +1,20 @@
 # Ignore Node.js modules
 /backend/node_modules/
 /frontend/node_modules/
+/frontend/coverage/
 
 # Ignore environment files
 /backend/.env
 
 # Ignore build output (if applicable)
 /frontend/build/
+
+
+# misc
+/frontend/.DS_Store
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+/frontend/npm-debug.log*
