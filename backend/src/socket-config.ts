@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { Application } from "express";
+import { move } from "./controllers/move";
 
 export let socket: Socket;
 
@@ -15,7 +16,7 @@ export const initializeSocket = (server: Application) => {
   io.on("connection", (_socket) => {
     console.log("A user connected");
     socket = _socket;
-
+    move(_socket);
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });
