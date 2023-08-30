@@ -1,24 +1,17 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import "./App.css";
-import { GamePage, HomePage } from "./pages";
-
-// import { io } from "socket.io-client";
-
-// const socket = io("http://localhost:3001/");
-
-// socket.on("connect", () => {
-//   console.log(`socket.connected: ${socket.connected}`); // true
-// });
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import './App.css';
+import './config';
+import { GamePage, HomePage } from './pages';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    path: '/',
+    element: <HomePage />
   },
   {
-    path: "/game",
-    element: <GamePage />,
-  },
+    path: '/game',
+    element: <GamePage />
+  }
 ]);
 
 function App() {
