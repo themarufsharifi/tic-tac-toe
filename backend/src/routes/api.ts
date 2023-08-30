@@ -1,21 +1,22 @@
-import { Router } from "express";
+import { Router } from 'express'
 import {
   createSession,
   registerPlayer,
   createRound,
   updateSession,
-  getGameList,
-} from "../controllers";
+  getSessions,
+  getSessionById,
+  getPlayerById,
+} from '../controllers'
 
-const router = Router();
+const router = Router()
 
-// Start a new game
-router.post("/register-player", registerPlayer);
-router.post("/create-session", createSession);
-router.post("/create-round", createRound);
-router.put("/update-session", updateSession);
+router.post('/register-player', registerPlayer)
+router.post('/create-session', createSession)
+router.post('/create-round', createRound)
+router.put('/update-session', updateSession)
+router.get('/sessions', getSessions)
+router.get('/player', getPlayerById)
+router.get('/session', getSessionById)
 
-// Get a list of game sessions
-router.get("/games", getGameList);
-
-export default router;
+export default router
