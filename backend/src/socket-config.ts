@@ -1,33 +1,39 @@
-import { Server, Socket } from "socket.io";
-import { createServer } from "http";
-import { Application } from "express";
-import { move } from "./controllers/move";
-
-export let socket: Socket;
+import { Server } from 'socket.io'
+import { createServer } from 'http'
+import { Application } from 'express'
+import { move } from './events/move'
+import { gameInterrupt } from './events/game-interrupt'
+import { EVENTS } from './constants'
 
 export const initializeSocket = (server: Application) => {
-  const httpServer = createServer(server);
+  const httpServer = createServer(server)
   const io = new Server(httpServer, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: 'http://localhost:3000',
     },
-  });
+  })
 
-  io.on("connection", (_socket) => {
-    console.log("A user connected");
-    socket = _socket;
-    move(_socket);
-    socket.on("disconnect", () => {
-      console.log("A user disconnected");
-    });
-  });
+  io.on('connection', (socket) => {
+    socket.on(EVENTS.JOIN, (data) => {
+      socket.join(data)
+    })
 
-  return httpServer;
-};
+    socket.on(EVENTS.GAME_START, (data) => {
+      socket.to(data).emit(EVENTS.GAME_STARTED)
+    })
 
-export const getSocket = () => {
-  if (!socket) {
-    throw new Error("Socket.io not initialized");
-  }
-  return socket;
-};
+    socket.on(EVENTS.NEW_ROUND, (data) => {
+      socket.to(data).emit(EVENTS.NEW_ROUND_STARTED)
+    })
+
+    socket.on(EVENTS.FINISH_GAME, (data) => {
+      socket.to(data).emit(EVENTS.GAME_FINISHED)
+    })
+
+    move(socket)
+    gameInterrupt(socket)
+    socket.on('disconnect', () => {})
+  })
+
+  return httpServer
+}
